@@ -68,6 +68,7 @@ export class LambdaInfraStack extends Stack {
     usersTable.grantReadWriteData(getUsersFunction);
     idResources.addMethod("PATCH", new LambdaIntegration(updateUserFunction));
 
+    //Delete User Function
     const deleteUserFunction = new Function(this, "deleteUserFunction", {
       runtime: Runtime.NODEJS_20_X,
       code: Code.fromAsset("lambda/delete-users/src"),
