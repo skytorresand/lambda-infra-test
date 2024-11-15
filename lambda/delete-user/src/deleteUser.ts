@@ -1,11 +1,17 @@
-import AWS from "aws-cdk";
+import { DynamoDeleteItem, DynamoDeleteItemProps } from "./../../../node_modules/aws-cdk-lib/aws-stepfunctions-tasks/lib/dynamodb/delete-item.d";
+import { APIGatewayProxyEvent, Context, Handler } from "aws-lambda";
+import * as AWS from "aws-sdk";
 const dynamoClient = new AWS.DynamoDB.DocumentClient();
 
 const TABLE_NAME = process.env.TABLE_NAME || "";
 
-const hander = async (event, context) => {
+interface Body {
+  userId: string;
+}
+
+const hander: Handler = async (event: APIGatewayProxyEvent, context: Context) => {
   try {
-    const body = JSON.parse(event.body);
+    const body: Body = JSON.parse(event.body || "");
 
     var params = {
       TableName: TABLE_NAME,
